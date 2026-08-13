@@ -32,11 +32,11 @@ Hardik Satija -- Roll No: 1024030756, Email: hsatija\_be24@thapar.edu\\
 August 13, 2026
 \end{center}
 
-\section{Higher-order goal \ldots secondary framing}
+\section{Higher-order goal}
 
 This project aims to reduce the fragmentation and information overload students face while discovering internships, hackathons, competitions, workshops, scholarships, research opportunities, and campus events. The immediate engineering objective is to build a deployable platform that converts scattered opportunity information into structured, personalized, and actionable recommendations.
 
-\section{Time-to-value \ldots primary heuristic}
+\section{Time-to-value}
 
 \begin{itemize}
 \item Build the core student workflow first: profile, opportunity database, search, filtering, and saving.
@@ -60,7 +60,7 @@ Students receive opportunities through college notices, department websites, clu
 
 The problem is therefore not simply finding opportunities, but identifying the \textbf{right opportunities for the right student at the right time}.
 
-\section{Proposed Solution \ldots Software Proposition}
+\section{Proposed Solution}
 
 \subsection{Overview}
 
@@ -104,7 +104,7 @@ Python matches your skills; AI matches your interests; CSE and semester 4 are el
 
 The first version will focus on reliable, controlled sources rather than attempting to crawl the entire internet. APIs, RSS feeds, campus submissions, and permitted public pages will be preferred. The system will also be designed for normal student devices and common cloud deployment.
 
-\section{Solution Approach \ldots Engineering focus}
+\section{Solution Approach}
 
 The project focuses on engineering a reliable workflow rather than claiming novel AI research.
 
@@ -171,7 +171,7 @@ The proposed architecture contains:
 
 CI/CD will automatically build, test, lint, and produce repeatable deployment artifacts.
 
-\section{Evaluation Criterion \ldots measurable and attributable}
+\section{Evaluation Criterion}
 
 Success will be measured through both system-level and user-level evaluation.
 
@@ -195,7 +195,7 @@ Success will be measured through both system-level and user-level evaluation.
 
 A pilot can involve approximately 10--20 students. A representative dataset of opportunity announcements will be manually labeled. The personalized system will then be compared with a basic non-personalized opportunity list. User feedback and measured discovery time will be used to evaluate practical usefulness.
 
-\section{Scalability \ldots with foresight}
+\section{Scalability}
 
 The system should scale from a campus prototype to a broader student opportunity network.
 
@@ -227,9 +227,9 @@ The project relies on mature technologies:
 
 These components allow the team to focus on recommendation quality, workflow correctness, and measurable evaluation.
 
-\section{Project scope and deliverables \ldots iteration-friendly}
+\section{Project scope and deliverables}
 
-\subsection{Initial deliverable \ldots first iteration}
+\subsection{Initial deliverable}
 
 \begin{itemize}
 \item Student authentication and profile.
