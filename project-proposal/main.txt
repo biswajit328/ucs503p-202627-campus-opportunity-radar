@@ -1,0 +1,292 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=0.8in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{amsmath}
+
+\hypersetup{colorlinks=true,linkcolor=black,urlcolor=blue}
+\setlist[itemize]{leftmargin=*,itemsep=1pt,topsep=2pt}
+\setlist[enumerate]{leftmargin=*,itemsep=1pt,topsep=2pt}
+\titleformat{\section}{\large\bfseries}{\thesection}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.4em}{}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries Campus Opportunity Radar}\\[3pt]
+{\large AI-Powered Personalized Opportunity Discovery \& Recommendation Platform}\\[6pt]
+\textbf{Project Proposal for UCS503P}\\
+Submitted to: \textbf{Paramveer kaur}\\
+Thapar Institute of Engineering and Technology\\[6pt]
+\textbf{Team Members}\\
+Biswajit Mandal -- Roll No: 1024030256, Email: bmandal\_be24@thapar.edu\\
+Hardik Satija -- Roll No: 1024030756, Email: hsatija\_be24@thapar.edu\\
+[6pt]
+August 13, 2026
+\end{center}
+
+\section{Higher-order goal \ldots secondary framing}
+
+This project aims to reduce the fragmentation and information overload students face while discovering internships, hackathons, competitions, workshops, scholarships, research opportunities, and campus events. The immediate engineering objective is to build a deployable platform that converts scattered opportunity information into structured, personalized, and actionable recommendations.
+
+\section{Time-to-value \ldots primary heuristic}
+
+\begin{itemize}
+\item Build the core student workflow first: profile, opportunity database, search, filtering, and saving.
+\item Add AI incrementally for information extraction, eligibility detection, skill extraction, and recommendation explanations.
+\item Use short development iterations and early user feedback rather than waiting for the complete system.
+\item Measure success through recommendation quality, extraction accuracy, and time saved in finding relevant opportunities.
+\end{itemize}
+
+\section{Problem Statement}
+
+Students receive opportunities through college notices, department websites, clubs, WhatsApp and Telegram groups, LinkedIn, Instagram, hackathon platforms, internship websites, and email. This fragmented ecosystem creates several problems:
+
+\begin{itemize}
+\item \textbf{Information overload:} students cannot easily identify which opportunities are relevant.
+\item \textbf{Missed deadlines:} useful opportunities may be discovered after registration closes.
+\item \textbf{Eligibility confusion:} students often spend time checking opportunities for which their branch or semester is not eligible.
+\item \textbf{Skill mismatch:} students may not know which opportunities fit their current skills.
+\item \textbf{No personalization:} most listings show similar results to all students.
+\item \textbf{Poor tracking:} saved opportunities, applications, registrations, and deadlines are not maintained in one place.
+\end{itemize}
+
+The problem is therefore not simply finding opportunities, but identifying the \textbf{right opportunities for the right student at the right time}.
+
+\section{Proposed Solution \ldots Software Proposition}
+
+\subsection{Overview}
+
+We propose \textbf{Campus Opportunity Radar}, an AI-powered opportunity intelligence platform. It combines opportunity information with a student's academic profile, skills, interests, eligibility, preferences, and deadlines to generate a personalized opportunity feed.
+
+The system will provide:
+
+\begin{itemize}
+\item Opportunity collection from controlled campus sources, authorized public sources, APIs/RSS feeds, and manual submissions.
+\item AI-based extraction of title, category, deadline, eligibility, skills, mode, location, and organizer.
+\item Student profiles containing branch, semester, skills, interests, and preferences.
+\item Eligibility filtering and a custom relevance-ranking engine.
+\item Explainable recommendations showing why an opportunity matches.
+\item Deadline urgency, saved opportunities, and application/participation tracking.
+\item Club/organizer submission and administrator approval workflows.
+\end{itemize}
+
+\subsection{Core workflow}
+
+\begin{enumerate}
+\item Opportunity is collected from an approved source.
+\item The ingestion pipeline processes the announcement.
+\item AI extracts structured fields such as skills, eligibility, category, and deadline.
+\item The structured opportunity is stored in PostgreSQL.
+\item The system compares the opportunity with the student's profile.
+\item Eligible opportunities receive a relevance score and are ranked.
+\item The student sees a personalized feed with explanations and deadline information.
+\item The student can save, register/apply, or track participation.
+\end{enumerate}
+
+\subsection{Example}
+
+For a CSE semester-4 student with Python, Machine Learning, SQL, and React skills and an interest in AI and hackathons, an AI/ML hackathon could be shown as:
+
+\begin{quote}
+\textbf{94\% Match}\\
+Python matches your skills; AI matches your interests; CSE and semester 4 are eligible; campus mode matches your preference; deadline is approaching.
+\end{quote}
+
+\subsection{Operational constraints}
+
+The first version will focus on reliable, controlled sources rather than attempting to crawl the entire internet. APIs, RSS feeds, campus submissions, and permitted public pages will be preferred. The system will also be designed for normal student devices and common cloud deployment.
+
+\section{Solution Approach \ldots Engineering focus}
+
+The project focuses on engineering a reliable workflow rather than claiming novel AI research.
+
+\subsection{Opportunity intelligence}
+
+A raw announcement is converted into structured information:
+
+\begin{itemize}
+\item Title and category
+\item Skills required
+\item Eligible branches and academic level
+\item Registration deadline
+\item Duration and mode
+\item Location and organizer
+\item Registration URL
+\end{itemize}
+
+Gemini will assist with information extraction, classification, skill extraction, eligibility extraction, and recommendation explanations.
+
+\subsection{Matching and ranking}
+
+The recommendation engine will use an explicit weighted score:
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+Component & Weight\\
+\midrule
+Skill Match & 30\%\\
+Eligibility Match & 25\%\\
+Interest Match & 20\%\\
+Deadline Feasibility & 15\%\\
+Location/Mode Preference & 10\%\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+These weights are an initial methodology and will be evaluated using labeled student-opportunity pairs.
+
+\subsection{Explainability}
+
+Instead of showing only a percentage, the platform will show reasons such as:
+
+\begin{itemize}
+\item Skills matched.
+\item Branch and semester eligible.
+\item Interest matched.
+\item Location or mode preference matched.
+\item Deadline approaching.
+\end{itemize}
+
+\subsection{Web architecture}
+
+The proposed architecture contains:
+
+\begin{itemize}
+\item \textbf{Frontend:} React, TypeScript, Tailwind CSS.
+\item \textbf{Backend:} Python, FastAPI, Pydantic, SQLAlchemy.
+\item \textbf{Database:} PostgreSQL.
+\item \textbf{AI:} Gemini API.
+\item \textbf{Recommendation:} Custom Python scoring and ranking engine.
+\item \textbf{Ingestion:} APIs/RSS, Python HTTP clients, and permitted web extraction.
+\end{itemize}
+
+CI/CD will automatically build, test, lint, and produce repeatable deployment artifacts.
+
+\section{Evaluation Criterion \ldots measurable and attributable}
+
+Success will be measured through both system-level and user-level evaluation.
+
+\subsection{Primary evaluation metrics}
+
+\textbf{Recommendation Precision@K:} measure how many of the top-$K$ recommendations are relevant to a student.
+
+\textbf{Information Extraction Accuracy:} evaluate deadline, eligibility, skill, and category extraction against manually labeled opportunity data.
+
+\subsection{Secondary evaluation metrics}
+
+\begin{itemize}
+\item Recall@K and NDCG@K for ranking quality.
+\item Time required to find five relevant opportunities.
+\item Recommendation usefulness on a 1--5 scale.
+\item User satisfaction and ease of discovery.
+\item Percentage of relevant opportunities discovered before deadlines.
+\end{itemize}
+
+\subsection{Pilot validation plan}
+
+A pilot can involve approximately 10--20 students. A representative dataset of opportunity announcements will be manually labeled. The personalized system will then be compared with a basic non-personalized opportunity list. User feedback and measured discovery time will be used to evaluate practical usefulness.
+
+\section{Scalability \ldots with foresight}
+
+The system should scale from a campus prototype to a broader student opportunity network.
+
+\begin{itemize}
+\item Separate frontend and backend components.
+\item Use database indexing and pagination for larger datasets.
+\item Keep APIs stateless where appropriate.
+\item Add new opportunity sources without changing the recommendation workflow.
+\item Support managed PostgreSQL and containerized/cloud deployment.
+\item Optionally introduce pgvector for semantic matching after the core system is stable.
+\end{itemize}
+
+Initially, the platform can serve one campus and later expand to multiple colleges and universities.
+
+\section{Engine availability heuristic}
+
+The project relies on mature technologies:
+
+\begin{itemize}
+\item React and TypeScript for the frontend.
+\item FastAPI and Python for backend APIs.
+\item PostgreSQL for structured data.
+\item Gemini API for AI extraction and explanations.
+\item SQLAlchemy/Alembic for database operations and migrations.
+\item Authentication and role-based authorization.
+\item APIs/RSS and permitted public-source ingestion.
+\item GitHub Actions or equivalent CI/CD.
+\end{itemize}
+
+These components allow the team to focus on recommendation quality, workflow correctness, and measurable evaluation.
+
+\section{Project scope and deliverables \ldots iteration-friendly}
+
+\subsection{Initial deliverable \ldots first iteration}
+
+\begin{itemize}
+\item Student authentication and profile.
+\item Opportunity database and detail page.
+\item Search and filtering.
+\item Save/bookmark functionality.
+\item Basic CI pipeline and testing.
+\end{itemize}
+
+\subsection{Subsequent deliverables}
+
+\begin{itemize}
+\item AI-based opportunity extraction.
+\item Eligibility and skill extraction.
+\item Personalized matching and ranking.
+\item Explainable recommendation feed.
+\item Deadline alerts.
+\item Application/participation tracking.
+\item Club submission portal.
+\item Admin approval and analytics dashboard.
+\item Skill-gap and opportunity-trend analysis.
+\end{itemize}
+
+\section{Development roadmap}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{1.5cm} X}
+\toprule
+Weeks & Deliverable\\
+\midrule
+1--2 & Foundation: React, FastAPI, PostgreSQL, authentication, student profile.\\
+3--4 & Opportunity MVP: database, creation, browse, search, filters, save.\\
+5--7 & AI extraction: category, deadline, eligibility, and skills.\\
+8--10 & Recommendation: matching, ranking, personalized feed, explanations.\\
+11--12 & Campus workflow: club portal, admin approval, application tracking.\\
+13--14 & Advanced feature: skill gap, trends, or semantic matching.\\
+15 & Testing, security, deployment, evaluation, documentation, presentation.\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Risks and mitigations}
+
+\begin{itemize}
+\item \textbf{Incorrect AI extraction:} validate important fields and allow review before publication.
+\item \textbf{Poor recommendations:} use labeled data and compare against a non-personalized baseline.
+\item \textbf{Source limitations:} prioritize campus submissions, APIs, and RSS feeds.
+\item \textbf{Privacy:} minimize stored student information and protect application data.
+\item \textbf{AI/API dependency:} keep the core matching logic independent of the AI service.
+\item \textbf{Scope creep:} complete the MVP before adding advanced features.
+\item \textbf{Security:} protect API keys, hash passwords, enforce roles, and validate inputs.
+\end{itemize}
+
+\section{Summary}
+
+Campus Opportunity Radar proposes a deployable platform that transforms fragmented student opportunity information into structured, personalized, and actionable recommendations. It combines controlled opportunity ingestion, AI-based information extraction, eligibility filtering, custom relevance ranking, explainable recommendations, and deadline awareness.
+
+The project remains focused on practical engineering: rapid incremental delivery, measurable evaluation, scalable architecture, CI/CD, and a realistic campus pilot. The initial system can start with one campus and later expand to multiple institutions and broader categories of student opportunities.
+
+\end{document}
