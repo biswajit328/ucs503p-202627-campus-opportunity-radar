@@ -13,8 +13,7 @@ sys.path.append(os.getcwd())
 load_dotenv()
 
 from app.core.database import Base
-from app.models.user import User
-from app.models.student_profile import StudentProfile
+from app.models import User, Skill, Interest, StudentProfile  # noqa: F401
 
 config = context.config
 
