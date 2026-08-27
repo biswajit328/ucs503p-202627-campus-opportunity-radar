@@ -3,6 +3,7 @@ import { api } from "../api/client";
 import { useAuth } from "../context/useAuth";
 import type { StudentProfileOut } from "../types/profile";
 import type { UserOut } from "../types/auth";
+import { Link } from "react-router-dom";
 
 export function Dashboard() {
   const { logout } = useAuth();
@@ -22,6 +23,9 @@ export function Dashboard() {
     <div className="min-h-screen bg-slate-900 text-white p-10">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Welcome to Nexora 🎯</h1>
+	<Link to="/opportunities" className="text-blue-400 hover:text-blue-300 text-sm mr-4">
+  Browse Opportunities
+</Link>
         <button onClick={logout} className="text-slate-400 hover:text-white text-sm">
           Log out
         </button>
