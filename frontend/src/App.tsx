@@ -5,6 +5,7 @@ import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { ProfileSetup } from "./pages/ProfileSetup";
 import { Dashboard } from "./pages/Dashboard";
+import { Opportunities } from "./pages/Opportunities";
 
 function App() {
   return (
@@ -29,6 +30,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+	<Route
+ 	 path="/opportunities"
+ 	 element={
+   	 <ProtectedRoute>
+     	 <Opportunities />
+   	 </ProtectedRoute>
+ 	 }
+	/>
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </BrowserRouter>
