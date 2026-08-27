@@ -1,3 +1,12 @@
+from app.schemas.bookmark import BookmarkOut
+from app.services.bookmark_service import (
+    BookmarkNotFoundError,
+    OpportunityAlreadyBookmarkedError,
+    ProfileRequiredError,
+    add_bookmark,
+    remove_bookmark,
+)
+
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
@@ -106,3 +115,30 @@ def delete_opportunity_route(
         delete_opportunity_by_id(db, opportunity_id)
     except OpportunityNotFoundError:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Opportunity not found")
+
+@router.post("/{opportunity_id}/bookmark", response_model=BookmarkOut, status_code=status.HTTP_201_CREATED)
+def bookmark_opportunity_route(
+    opportunity_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    try:
+        return add_bookmark(db, current_user, opportunity_id)
+    except ProfileRequiredError:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Create a student profile first")
+    except OpportunityAlreadyBookmarkedError:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Opportunity already bookmarked")
+
+
+@router.delete("/{opportunity_id}/bookmark", status_code=status.HTTP_204_NO_CONTENT)
+def unbookmark_opportunity_route(
+    opportunity_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    try:
+        remove_bookmark(db, current_user, opportunity_id)
+    except ProfileRequiredError:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Create a student profile first")
+    except BookmarkNotFoundError:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Bookmark not found")
