@@ -7,6 +7,7 @@ from app.repositories.opportunity_repository import (
     delete_opportunity,
     get_opportunity_by_id,
     list_opportunities,
+    search_opportunities,
 )
 from app.repositories.skill_repository import get_or_create_skill
 from app.schemas.opportunity import OpportunityCreate, OpportunityUpdate
@@ -77,6 +78,8 @@ def update_existing_opportunity(db: Session, opportunity_id: int, payload: Oppor
     db.refresh(opportunity)
     return opportunity
 
+def search_all_opportunities(db: Session, **filters) -> list[Opportunity]:
+    return search_opportunities(db, **filters)
 
 def delete_opportunity_by_id(db: Session, opportunity_id: int) -> None:
     opportunity = get_opportunity_by_id(db, opportunity_id)
