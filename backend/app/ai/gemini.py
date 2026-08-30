@@ -2,6 +2,8 @@ import os
 
 from dotenv import load_dotenv
 from google import genai
+from google.genai import types
+from pydantic import BaseModel
 
 from app.ai.base import AIProvider
 
@@ -22,5 +24,16 @@ class GeminiProvider(AIProvider):
         response = self._client.models.generate_content(
             model=self._model,
             contents=prompt,
+        )
+        return response.text
+
+    def generate_structured(self, prompt: str, schema: type[BaseModel]) -> str:
+        response = self._client.models.generate_content(
+            model=self._model,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+                response_schema=schema,
+            ),
         )
         return response.text
