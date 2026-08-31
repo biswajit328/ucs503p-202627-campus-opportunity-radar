@@ -5,6 +5,7 @@ from app.models.student_profile import StudentProfile
 from app.models.opportunity import Opportunity
 from app.models.opportunity_eligibility import OpportunityEligibility
 from app.models.bookmark import Bookmark
+from app.models.application import Application
 
 __all__ = [
     "User",
@@ -14,4 +15,5 @@ __all__ = [
     "Opportunity",
     "OpportunityEligibility",
     "Bookmark",
+    "Application",
 ]
