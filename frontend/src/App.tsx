@@ -6,6 +6,7 @@ import { Register } from "./pages/Register";
 import { ProfileSetup } from "./pages/ProfileSetup";
 import { Dashboard } from "./pages/Dashboard";
 import { Opportunities } from "./pages/Opportunities";
+import { Recommendations } from "./pages/Recommendations";
 
 function App() {
   return (
@@ -37,11 +38,20 @@ function App() {
      	 <Opportunities />
    	 </ProtectedRoute>
  	 }
-	/>
+	/> 
+          <Route
+  path="/recommendations"
+  element={
+    <ProtectedRoute>
+      <Recommendations />
+    </ProtectedRoute>
+  }
+/>
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
+        
   );
 }
 

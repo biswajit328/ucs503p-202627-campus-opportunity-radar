@@ -26,6 +26,9 @@ export function Dashboard() {
 	<Link to="/opportunities" className="text-blue-400 hover:text-blue-300 text-sm mr-4">
   Browse Opportunities
 </Link>
+        <Link to="/recommendations" className="text-blue-400 hover:text-blue-300 text-sm mr-4">
+  Recommended for You
+</Link>
         <button onClick={logout} className="text-slate-400 hover:text-white text-sm">
           Log out
         </button>
