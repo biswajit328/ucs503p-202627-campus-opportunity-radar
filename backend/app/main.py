@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import applications, auth, bookmarks, ingestion, opportunities, profiles, recommendations, users
+from app.api import (
+    applications, auth, bookmarks, ingestion, opportunities,
+    organizations, profiles, recommendations, submissions, users,
+)
 
 app = FastAPI(title="Nexora API")
 
@@ -21,6 +24,8 @@ app.include_router(bookmarks.router)
 app.include_router(ingestion.router)
 app.include_router(recommendations.router)
 app.include_router(applications.router)
+app.include_router(organizations.router)
+app.include_router(submissions.router)
 
 @app.get("/health")
 def health_check():
