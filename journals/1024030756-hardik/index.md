@@ -9,4 +9,5 @@ Name: Hardik Satija
 +  [W5-7 : A model that got retired mid-project, and teaching an
    LLM to doubt itself](./hardik-w5-w7-ticket-resolution.md)
 +  [W8-10 : Two errors that looked the same and weren't](./hardik-w8-w10-ticket-resolution.md)
++  [W11-13 : The third time a bug repeats](./hardik-w11-13-ticket-resolution.md)
 +  […]

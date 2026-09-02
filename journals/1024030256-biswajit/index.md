@@ -10,4 +10,6 @@ Name: Biswajit Mandal
    suite unreliable](./biswajit-w5-w7-ticket-resolution.md)
 +  [W8-10 : Three states instead of two, scoring that doesn't
    filter, and a 404 that isn't a bug](./biswajit-w8-w10-ticket-resolution.md)
++  [W11-13 : A type mismatch caught before it ran, and an
+   eligibility engine tested by a caller it never expected](./biswajit-w11-13-ticket-resolution.md)
 +  […]
