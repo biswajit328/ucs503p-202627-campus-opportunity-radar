@@ -1,0 +1,13 @@
+Student                 P@3 (pers)      NDCG@3 (pers)     P@3 (base)      NDCG@3 (base)
+---------------------------------------------------------------------------------------
+eval_cse4_python        0.33            0.68              0.33            0.59
+eval_ece2_robotics      0.33            0.63              0.33            0.43
+eval_it6_react          0.67            0.93              0.33            0.37
+eval_cse2_ml            0.00            0.92              0.00            0.00
+eval_me4_general        0.33            0.82              0.00            0.00
+---------------------------------------------------------------------------------------
+AVERAGE                 0.33            0.80              0.20            0.28
+
+Personalized vs baseline (positive = personalization wins):
+  Precision@3 delta: +0.13
+  NDCG@3 delta:      +0.52
