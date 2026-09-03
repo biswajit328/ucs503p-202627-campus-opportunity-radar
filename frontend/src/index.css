@@ -1,1 +1,42 @@
 @import "tailwindcss";
+
+@theme {
+  --color-navy-950: #0b1220;
+  --color-navy-900: #101a2e;
+  --color-navy-800: #141f35;
+  --color-navy-700: #1c2942;
+
+  --color-teal-400: #2dd4bf;
+  --color-teal-300: #5eead4;
+
+  --color-amber-400: #f5a15c;
+  --color-amber-300: #f8b87e;
+
+  --color-ink: #e8ecf4;
+  --color-ink-muted: #8993a8;
+
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "IBM Plex Sans", sans-serif;
+}
+
+body {
+  background-color: var(--color-navy-950);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+@keyframes radar-sweep-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.radar-sweep {
+  animation: radar-sweep-rotate 8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radar-sweep {
+    animation: none;
+  }
+}
