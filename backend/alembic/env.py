@@ -12,7 +12,7 @@ sys.path.append(os.getcwd())
 
 load_dotenv()
 
-from app.core.database import Base
+from app.core.database import Base, DATABASE_URL
 from app.models import (
     User, Skill, Interest, StudentProfile, Opportunity, OpportunityEligibility,
     Bookmark, Application, Organization, Submission,
@@ -20,7 +20,8 @@ from app.models import (
 
 config = context.config
 
-config.set_main_option("sqlalchemy.url", os.getenv("DATABASE_URL"))
+if DATABASE_URL:
+    config.set_main_option("sqlalchemy.url", DATABASE_URL)
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
