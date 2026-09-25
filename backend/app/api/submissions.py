@@ -75,21 +75,6 @@ def review_submission_route(
     )
 
 
-@router.post("/{submission_id}/approve", status_code=status.HTTP_201_CREATED)
-def approve_submission_route(
-    submission_id: int,
-    db: Session = Depends(get_db),
-    admin: User = Depends(require_admin),
-):
-    try:
-        opportunity = approve_submission(db, admin, submission_id)
-    except SubmissionNotFoundError:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Submission not found")
-    except SubmissionAlreadyReviewedError:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Submission already reviewed")
-    return {"opportunity_id": opportunity.id}
-
-
 @router.post("/{submission_id}/reject", response_model=SubmissionOut)
 def reject_submission_route(
     submission_id: int,

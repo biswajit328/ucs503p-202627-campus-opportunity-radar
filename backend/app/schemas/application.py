@@ -3,6 +3,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict
 
 from app.models.application import ApplicationStatus
+from app.schemas.opportunity import OpportunityOut
 
 
 class ApplicationCreate(BaseModel):
@@ -21,3 +22,4 @@ class ApplicationOut(BaseModel):
     status: ApplicationStatus
     created_at: datetime
     updated_at: datetime
+    opportunity: OpportunityOut

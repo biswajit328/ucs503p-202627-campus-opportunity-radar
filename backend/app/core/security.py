@@ -8,6 +8,9 @@ from jose import jwt, JWTError
 load_dotenv()
 
 SECRET_KEY = os.getenv("JWT_SECRET")
+if not SECRET_KEY or SECRET_KEY == "change_me":
+    raise ValueError("JWT_SECRET must be configured and not be 'change_me' in production")
+
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
 

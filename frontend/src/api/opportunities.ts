@@ -11,3 +11,7 @@ export async function searchOpportunities(params: OpportunitySearchParams): Prom
   const queryString = query.toString();
   return api.get<Opportunity[]>(`/opportunities/search${queryString ? `?${queryString}` : ""}`);
 }
+
+export function getOpportunities(limit = 100): Promise<Opportunity[]> {
+  return api.get<Opportunity[]>(`/opportunities?limit=${limit}`);
+}

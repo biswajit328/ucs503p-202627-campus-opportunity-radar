@@ -1,9 +1,13 @@
-export function RadarBackdrop() {
+interface Props {
+  size?: number;
+}
+
+export function RadarBackdrop({ size = 560 }: Props) {
   const ringScales = [0.25, 0.5, 0.75, 1];
 
   return (
     <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
-      <div className="relative w-[560px] h-[560px]">
+      <div className="relative" style={{ width: size, height: size }}>
         {ringScales.map((scale) => (
           <div
             key={scale}

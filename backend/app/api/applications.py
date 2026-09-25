@@ -8,6 +8,7 @@ from app.schemas.application import ApplicationCreate, ApplicationOut, Applicati
 from app.services.application_service import (
     ApplicationNotFoundError,
     ProfileRequiredError,
+    ApplicationAlreadyExistsError,
     list_my_applications,
     track_opportunity,
     update_application_status,
@@ -26,6 +27,8 @@ def create_application_route(
         return track_opportunity(db, current_user, payload.opportunity_id)
     except ProfileRequiredError:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Create a student profile first")
+    except ApplicationAlreadyExistsError:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Already applied to this opportunity")
 
 
 @router.get("", response_model=list[ApplicationOut])

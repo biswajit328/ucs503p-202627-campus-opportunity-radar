@@ -18,6 +18,9 @@ class ProfileRequiredError(Exception):
 class ApplicationNotFoundError(Exception):
     pass
 
+class ApplicationAlreadyExistsError(Exception):
+    pass
+
 
 def _require_profile_id(db: Session, user: User) -> int:
     profile = get_profile_by_user_id(db, user.id)
@@ -28,6 +31,9 @@ def _require_profile_id(db: Session, user: User) -> int:
 
 def track_opportunity(db: Session, user: User, opportunity_id: int) -> Application:
     profile_id = _require_profile_id(db, user)
+    existing = db.query(Application).filter(Application.student_profile_id == profile_id, Application.opportunity_id == opportunity_id).first()
+    if existing:
+        raise ApplicationAlreadyExistsError()
     return create_application(db, profile_id, opportunity_id)
 
 

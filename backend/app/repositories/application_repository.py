@@ -19,9 +19,12 @@ def get_application(db: Session, application_id: int, student_profile_id: int) -
     )
 
 
+from sqlalchemy.orm import joinedload
+
 def list_applications(db: Session, student_profile_id: int) -> list[Application]:
     return (
         db.query(Application)
+        .options(joinedload(Application.opportunity))
         .filter(Application.student_profile_id == student_profile_id)
         .order_by(Application.updated_at.desc())
         .all()

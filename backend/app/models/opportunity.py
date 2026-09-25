@@ -53,9 +53,9 @@ class Opportunity(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
     description: Mapped[str] = mapped_column(Text, nullable=False)
-    category: Mapped[OpportunityCategory] = mapped_column(Enum(OpportunityCategory), nullable=False)
+    category: Mapped[OpportunityCategory] = mapped_column(Enum(OpportunityCategory), nullable=False, index=True)
     organizer: Mapped[str] = mapped_column(String(255), nullable=False)
-    deadline: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    deadline: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
     start_date: Mapped[date | None] = mapped_column(nullable=True)
     duration: Mapped[str | None] = mapped_column(String(100), nullable=True)
     location: Mapped[str | None] = mapped_column(String(255), nullable=True)
@@ -64,7 +64,7 @@ class Opportunity(Base):
     source_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
     source_type: Mapped[str] = mapped_column(String(50), nullable=False, default="admin")
     status: Mapped[OpportunityStatus] = mapped_column(
-        Enum(OpportunityStatus), nullable=False, default=OpportunityStatus.APPROVED
+        Enum(OpportunityStatus), nullable=False, default=OpportunityStatus.APPROVED, index=True
     )
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)

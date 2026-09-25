@@ -22,7 +22,12 @@ def _dedup_skills(db: Session, names: list[str]):
     return list({s.id: s for s in objs}.values())
 
 
-def create_new_opportunity(db: Session, payload: OpportunityCreate) -> Opportunity:
+def create_new_opportunity(db: Session, user: User, payload: OpportunityCreate) -> Opportunity:
+    if user.role != UserRole.ADMIN:
+        org = get_organization_by_owner(db, user.id)
+        if not org or payload.organizer != org.name:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Organizer name must match your organization")
+
     opportunity = Opportunity(
         title=payload.title,
         description=payload.description,
@@ -35,7 +40,7 @@ def create_new_opportunity(db: Session, payload: OpportunityCreate) -> Opportuni
         mode=payload.mode,
         registration_url=payload.registration_url,
         source_url=payload.source_url,
-        source_type="admin",
+        source_type="admin" if user.role == UserRole.ADMIN else "organizer",
     )
     opportunity.skills = _dedup_skills(db, payload.skills)
     opportunity.eligibility = OpportunityEligibility(
@@ -57,10 +62,24 @@ def list_all_opportunities(db: Session, skip: int = 0, limit: int = 20) -> list[
     return list_opportunities(db, skip=skip, limit=limit)
 
 
-def update_existing_opportunity(db: Session, opportunity_id: int, payload: OpportunityUpdate) -> Opportunity:
+from app.models.user import User, UserRole
+from app.repositories.organization_repository import get_organization_by_owner
+from fastapi import HTTPException, status
+
+def _authorize_opportunity_modification(db: Session, user: User, opportunity: Opportunity):
+    if user.role == UserRole.ADMIN:
+        return
+    org = get_organization_by_owner(db, user.id)
+    if not org or opportunity.organizer != org.name:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to modify this opportunity")
+
+
+def update_existing_opportunity(db: Session, user: User, opportunity_id: int, payload: OpportunityUpdate) -> Opportunity:
     opportunity = get_opportunity_by_id(db, opportunity_id)
     if not opportunity:
         raise OpportunityNotFoundError()
+
+    _authorize_opportunity_modification(db, user, opportunity)
 
     update_data = payload.model_dump(exclude_unset=True, exclude={"skills", "eligibility"})
     for field, value in update_data.items():
@@ -81,8 +100,11 @@ def update_existing_opportunity(db: Session, opportunity_id: int, payload: Oppor
 def search_all_opportunities(db: Session, **filters) -> list[Opportunity]:
     return search_opportunities(db, **filters)
 
-def delete_opportunity_by_id(db: Session, opportunity_id: int) -> None:
+def delete_opportunity_by_id(db: Session, user: User, opportunity_id: int) -> None:
     opportunity = get_opportunity_by_id(db, opportunity_id)
     if not opportunity:
         raise OpportunityNotFoundError()
+
+    _authorize_opportunity_modification(db, user, opportunity)
+
     delete_opportunity(db, opportunity)

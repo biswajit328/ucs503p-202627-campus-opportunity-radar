@@ -28,12 +28,11 @@ def _normalized(values: list[str]) -> set[str]:
     return {v.strip().lower() for v in values}
 
 
-def _skill_score(student_skills: list[str], opportunity_skills: list[str]) -> tuple[float, str | None]:
+def _skill_score(student_skills_normalized: set[str], opportunity_skills: list[str]) -> tuple[float, str | None]:
     if not opportunity_skills:
         return 1.0, None
-    student_set = _normalized(student_skills)
     opp_set = _normalized(opportunity_skills)
-    matched = student_set & opp_set
+    matched = student_skills_normalized & opp_set
     if not matched:
         return 0.0, None
     score = len(matched) / len(opp_set)
@@ -42,17 +41,23 @@ def _skill_score(student_skills: list[str], opportunity_skills: list[str]) -> tu
 
 
 def _interest_score(
-    student_interests: list[str], opportunity_category: str
+    student_interests_normalized: set[str], opportunity_category: str
 ) -> tuple[float, str | None]:
-    interest_set = _normalized(student_interests)
     category_words = opportunity_category.replace("_", " ").lower()
-    for interest in interest_set:
+    for interest in student_interests_normalized:
         if interest in category_words or category_words in interest:
             return 1.0, f"{interest.title()} matches your interests"
-    return 0.3, None  # small baseline, not zero — category relevance is fuzzy, not binary
+    return 0.3, None  # small baseline, not zero ?" category relevance is fuzzy, not binary
 
 
-def _deadline_score(deadline: datetime) -> tuple[float, str]:
+def _deadline_score(deadline: datetime | None) -> tuple[float, str | None]:
+    if not deadline:
+        return 0.5, None
+
+    # Ensure deadline is timezone-aware
+    if deadline.tzinfo is None:
+        deadline = deadline.replace(tzinfo=timezone.utc)
+
     now = datetime.now(timezone.utc)
     days_left = (deadline - now).total_seconds() / 86400
     if days_left < 0:
@@ -74,16 +79,24 @@ def _mode_score(preferred_mode: str | None, opportunity_mode: str) -> tuple[floa
     return 0.4, None
 
 
-def score_opportunity(student: StudentProfile, opportunity: Opportunity) -> ScoreBreakdown:
+def score_opportunity(
+    student: StudentProfile,
+    opportunity: Opportunity,
+    student_skills_normalized: set[str] | None = None,
+    student_interests_normalized: set[str] | None = None
+) -> ScoreBreakdown:
     eligibility_result = check_eligibility(student, opportunity.eligibility)
     eligibility_score = {"ELIGIBLE": 1.0, "UNCERTAIN": 0.5, "NOT_ELIGIBLE": 0.0}[eligibility_result.status]
 
-    student_skill_names = [s.name for s in student.skills]
-    student_interest_names = [i.name for i in student.interests]
+    if student_skills_normalized is None:
+        student_skills_normalized = _normalized([s.name for s in student.skills])
+    if student_interests_normalized is None:
+        student_interests_normalized = _normalized([i.name for i in student.interests])
+
     opportunity_skill_names = [s.name for s in opportunity.skills]
 
-    skill_score, skill_reason = _skill_score(student_skill_names, opportunity_skill_names)
-    interest_score, interest_reason = _interest_score(student_interest_names, opportunity.category.value)
+    skill_score, skill_reason = _skill_score(student_skills_normalized, opportunity_skill_names)
+    interest_score, interest_reason = _interest_score(student_interests_normalized, opportunity.category.value)
     deadline_score, deadline_reason = _deadline_score(opportunity.deadline)
     mode_score, mode_reason = _mode_score(student.preferred_mode, opportunity.mode.value)
 

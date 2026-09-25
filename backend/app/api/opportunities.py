@@ -12,7 +12,7 @@ from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
-from app.auth.dependencies import get_current_user, require_admin
+from app.auth.dependencies import get_current_user, require_admin, require_organizer_or_admin
 from app.core.database import get_db
 from app.models.opportunity import OpportunityCategory, OpportunityMode
 from app.models.user import User
@@ -34,9 +34,9 @@ router = APIRouter(prefix="/opportunities", tags=["opportunities"])
 def create_opportunity_route(
     payload: OpportunityCreate,
     db: Session = Depends(get_db),
-    _admin: User = Depends(require_admin),
+    _user: User = Depends(require_organizer_or_admin),
 ):
-    return create_new_opportunity(db, payload)
+    return create_new_opportunity(db, _user, payload)
 
 
 @router.get("", response_model=list[OpportunityOut])
@@ -97,10 +97,10 @@ def update_opportunity_route(
     opportunity_id: int,
     payload: OpportunityUpdate,
     db: Session = Depends(get_db),
-    _admin: User = Depends(require_admin),
+    _user: User = Depends(require_organizer_or_admin),
 ):
     try:
-        return update_existing_opportunity(db, opportunity_id, payload)
+        return update_existing_opportunity(db, _user, opportunity_id, payload)
     except OpportunityNotFoundError:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Opportunity not found")
 
@@ -109,10 +109,10 @@ def update_opportunity_route(
 def delete_opportunity_route(
     opportunity_id: int,
     db: Session = Depends(get_db),
-    _admin: User = Depends(require_admin),
+    _user: User = Depends(require_organizer_or_admin),
 ):
     try:
-        delete_opportunity_by_id(db, opportunity_id)
+        delete_opportunity_by_id(db, _user, opportunity_id)
     except OpportunityNotFoundError:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Opportunity not found")
 

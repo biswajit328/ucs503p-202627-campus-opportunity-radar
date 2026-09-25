@@ -24,9 +24,12 @@ def get_bookmark(db: Session, student_profile_id: int, opportunity_id: int) -> B
     )
 
 
+from sqlalchemy.orm import joinedload
+
 def list_bookmarks(db: Session, student_profile_id: int) -> list[Bookmark]:
     return (
         db.query(Bookmark)
+        .options(joinedload(Bookmark.opportunity))
         .filter(Bookmark.student_profile_id == student_profile_id)
         .order_by(Bookmark.created_at.desc())
         .all()

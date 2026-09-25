@@ -6,6 +6,7 @@ export function getDeadlineUrgency(deadlineIso: string): DeadlineUrgency {
   const diffMs = deadline.getTime() - now.getTime();
   const diffDays = diffMs / (1000 * 60 * 60 * 24);
 
+  if (deadline.getFullYear() > 2090) return "NORMAL"; // placeholder date
   if (diffDays < 0) return "EXPIRED";
   if (diffDays <= 3) return "URGENT";
   if (diffDays <= 7) return "SOON";
@@ -14,7 +15,11 @@ export function getDeadlineUrgency(deadlineIso: string): DeadlineUrgency {
 }
 
 export function formatDeadline(deadlineIso: string): string {
-  return new Date(deadlineIso).toLocaleDateString(undefined, {
+  const date = new Date(deadlineIso);
+  if (isNaN(date.getTime()) || date.getFullYear() > 2090) {
+    return "Deadline not available";
+  }
+  return date.toLocaleDateString(undefined, {
     year: "numeric",
     month: "short",
     day: "numeric",
@@ -22,9 +27,15 @@ export function formatDeadline(deadlineIso: string): string {
 }
 
 export const urgencyStyles: Record<DeadlineUrgency, string> = {
-  URGENT: "bg-red-500/20 text-red-400 border-red-500/40",
-  SOON: "bg-orange-500/20 text-orange-400 border-orange-500/40",
-  UPCOMING: "bg-yellow-500/20 text-yellow-400 border-yellow-500/40",
-  EXPIRED: "bg-slate-700 text-slate-500 border-slate-600",
-  NORMAL: "bg-slate-700 text-slate-300 border-slate-600",
+  URGENT: "bg-amber-400/15 text-amber-300 border-amber-400/40",
+  SOON: "bg-amber-400/10 text-amber-400 border-amber-400/25",
+  UPCOMING: "bg-navy-900 text-ink-muted border-navy-700",
+  EXPIRED: "bg-navy-900 text-ink-muted/60 border-navy-700",
+  NORMAL: "bg-navy-900 text-ink-muted border-navy-700",
 };
+
+export function daysUntil(deadlineIso: string): number {
+  const now = new Date();
+  const deadline = new Date(deadlineIso);
+  return Math.ceil((deadline.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+}
