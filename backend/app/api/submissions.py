@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from google.genai.errors import ServerError
 
 from app.auth.dependencies import get_current_user, require_admin
 from app.core.database import get_db
@@ -45,6 +46,8 @@ def approve_submission_route(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Submission already reviewed")
     except InvalidExtractionError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except ServerError:
+        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="AI review service is temporarily unavailable. Please try again shortly.")
     return {"opportunity_id": opportunity.id}
 
 @router.get("/pending", response_model=list[SubmissionOut])
@@ -65,6 +68,8 @@ def review_submission_route(
         submission, raw_text, extracted, review = review_submission(db, submission_id)
     except SubmissionNotFoundError:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Submission not found")
+    except ServerError:
+        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="AI review service is temporarily unavailable. Please try again shortly.")
     return SubmissionReviewOut(
         id=submission.id,
         review_status=submission.review_status,

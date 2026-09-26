@@ -17,7 +17,19 @@ class GeminiProvider(AIProvider):
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
             raise RuntimeError("GEMINI_API_KEY is not set in .env")
-        self._client = genai.Client(api_key=api_key)
+        self._client = genai.Client(
+            api_key=api_key,
+            http_options=types.HttpOptions(
+                retry_options=types.HttpRetryOptions(
+                    attempts=3,
+                    initial_delay=1.0,
+                    max_delay=10.0,
+                    exp_base=2.0,
+                    jitter=1.0,
+                    http_status_codes=[408, 429, 500, 502, 503, 504],
+                )
+            )
+        )
         self._model = model
 
     def generate_text(self, prompt: str) -> str:
