@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { searchOpportunities } from "../api/opportunities";
 import { addBookmark, getMyBookmarks, removeBookmark } from "../api/bookmarks";
 import { createApplication, getApplications } from "../api/applications";
@@ -27,7 +27,7 @@ export function Opportunities() {
   const [filters, setFilters] = useState<OpportunitySearchParams>({ keyword: initialQuery });
   const [selectedOpp, setSelectedOpp] = useState<Opportunity | null>(null);
 
-  const loadOpportunities = async (params: OpportunitySearchParams) => {
+  const loadOpportunities = useCallback(async (params: OpportunitySearchParams) => {
     setLoading(true);
     setError(null);
     try {
@@ -40,7 +40,7 @@ export function Opportunities() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -77,14 +77,21 @@ export function Opportunities() {
     };
   }, []); // Initial load
 
+  const lastQ = useRef(searchParams.get("q"));
+
   useEffect(() => {
     const q = searchParams.get("q");
-    if (q !== null && q !== filters.keyword) {
-      const newFilters = { ...filters, keyword: q };
-      setFilters(newFilters);
-      loadOpportunities(newFilters);
+    if (q !== null && q !== lastQ.current) {
+      lastQ.current = q;
+      setTimeout(() => {
+        setFilters((prev) => {
+          const next = { ...prev, keyword: q };
+          loadOpportunities(next);
+          return next;
+        });
+      }, 0);
     }
-  }, [searchParams]);
+  }, [searchParams, loadOpportunities]);
 
   const handleSearch = () => {
     loadOpportunities(filters);

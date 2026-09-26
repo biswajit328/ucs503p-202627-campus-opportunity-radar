@@ -9,17 +9,18 @@ import { getRecommendations } from "../api/recommendations";
 import { searchOpportunities } from "../api/opportunities";
 import { getMyBookmarks, addBookmark, removeBookmark } from "../api/bookmarks";
 import { getApplications } from "../api/applications";
-import { getDeadlineUrgency, formatDeadline } from "../utils/deadline";
+import { getDeadlineUrgency, formatDeadline, daysUntil } from "../utils/deadline";
 import type { StudentProfileOut } from "../types/profile";
 import type { Recommendation } from "../types/recommendation";
 import type { Opportunity } from "../types/opportunity";
 import type { Application } from "../types/application";
+import type { Bookmark } from "../types/bookmark";
 
 export function Dashboard() {
   const [profile, setProfile] = useState<StudentProfileOut | null>(null);
   const [topMatches, setTopMatches] = useState<Recommendation[]>([]);
   const [allOpportunities, setAllOpportunities] = useState<Opportunity[]>([]);
-  const [bookmarksData, setBookmarksData] = useState<any[]>([]);
+  const [bookmarksData, setBookmarksData] = useState<Bookmark[]>([]);
   const [savedIds, setSavedIds] = useState<Set<number>>(new Set());
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
@@ -259,7 +260,7 @@ export function Dashboard() {
                             <span className="text-[15px] font-semibold text-ink line-clamp-2 leading-snug group-hover:text-teal-400 transition-colors">{o.title}</span>
                             <div className="mt-auto flex items-center justify-between">
                               <span className="text-[12px] font-medium text-amber-400 bg-amber-400/10 px-2 py-1 rounded">
-                                {getDeadlineUrgency(o.deadline) === "URGENT" || getDeadlineUrgency(o.deadline) === "SOON" ? `Closes in ${Math.ceil((new Date(o.deadline).getTime() - Date.now()) / (1000 * 60 * 60 * 24))}d` : formatDeadline(o.deadline)}
+                                {getDeadlineUrgency(o.deadline) === "URGENT" || getDeadlineUrgency(o.deadline) === "SOON" ? `Closes in ${daysUntil(o.deadline)}d` : formatDeadline(o.deadline)}
                               </span>
                               <span className="text-ink-muted group-hover:text-teal-400 transition-colors">&rarr;</span>
                             </div>

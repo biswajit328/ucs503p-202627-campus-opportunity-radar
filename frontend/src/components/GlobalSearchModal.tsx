@@ -14,8 +14,10 @@ export function GlobalSearchModal({ isOpen, onClose }: Props) {
 
   useEffect(() => {
     if (isOpen) {
-      setQuery("");
-      setTimeout(() => inputRef.current?.focus(), 10);
+      setTimeout(() => {
+        setQuery("");
+        inputRef.current?.focus();
+      }, 10);
     }
   }, [isOpen]);
 
