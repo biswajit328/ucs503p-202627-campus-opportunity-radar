@@ -1,5 +1,7 @@
+import logging
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import (
@@ -11,6 +13,14 @@ app = FastAPI(title="Nexora API")
 
 allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173")
 allowed_origins = [origin.strip() for origin in allowed_origins_env.split(",") if origin.strip()]
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    logging.error(f"Unhandled exception: {exc}", exc_info=True)
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal Server Error"}
+    )
 
 app.add_middleware(
     CORSMiddleware,
