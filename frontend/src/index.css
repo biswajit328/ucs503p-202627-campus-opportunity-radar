@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@theme {
+  /* Startup-tier neutral palette (Linear inspired: #08090A base) */
+  --color-navy-950: #08090a;
+  --color-navy-900: #121316;
+  --color-navy-800: #1c1d21;
+  --color-navy-700: #2b2d31;
+  --color-navy-600: #3f4247;
+
+  /* Signature Teal Accent */
+  --color-teal-400: #2dd4bf;
+  --color-teal-300: #5eead4;
+  --color-teal-500: #14b8a6;
+  --color-teal-900: #042f2e;
+
+  /* Status / Urgency */
+  --color-amber-400: #f5a15c;
+  --color-amber-300: #f8b87e;
+  --color-amber-500: #d97706;
+
+  /* Other Semantics */
+  --color-green-400: #4ade80;
+  --color-green-500: #22c55e;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+
+  /* Ink / Typography */
+  --color-ink: #f0f0f2;
+  --color-ink-muted: #8b8e98;
+  --color-ink-faint: #565963;
+
+  /* Type system */
+  --font-display: "Söhne", "Geist", "Inter Display", -apple-system, sans-serif;
+  --font-body: "Inter", "Geist", -apple-system, sans-serif;
+}
+
+body {
+  background-color: var(--color-navy-950);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  /* Faint ambient grain texture */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animations */
+@keyframes radar-sweep-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes progress-arc {
+  from { stroke-dasharray: 0, 100; }
+  to { stroke-dasharray: var(--score), 100; }
+}
+
+.radar-sweep {
+  animation: radar-sweep-rotate 12s linear infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* Premium Surface Class */
+.surface-premium {
+  background: linear-gradient(145deg, var(--color-navy-900), var(--color-navy-950));
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.surface-premium::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(45, 212, 191, 0.15), transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radar-sweep, .animate-fade-in-up {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

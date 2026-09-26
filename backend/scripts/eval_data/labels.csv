@@ -1,0 +1,41 @@
+student_email,opportunity_title,relevance
+eval_cse4_python@nexora.test,[EVAL] AI Research Internship,3
+eval_cse4_python@nexora.test,[EVAL] Web Dev Hackathon,0
+eval_cse4_python@nexora.test,[EVAL] Robotics Workshop,0
+eval_cse4_python@nexora.test,[EVAL] Data Science Scholarship,3
+eval_cse4_python@nexora.test,[EVAL] General Aptitude Competition,1
+eval_cse4_python@nexora.test,[EVAL] Mechanical Design Internship,0
+eval_cse4_python@nexora.test,[EVAL] Frontend Bootcamp,0
+eval_cse4_python@nexora.test,[EVAL] Uncertain Eligibility Event,1
+eval_ece2_robotics@nexora.test,[EVAL] AI Research Internship,0
+eval_ece2_robotics@nexora.test,[EVAL] Web Dev Hackathon,0
+eval_ece2_robotics@nexora.test,[EVAL] Robotics Workshop,3
+eval_ece2_robotics@nexora.test,[EVAL] Data Science Scholarship,0
+eval_ece2_robotics@nexora.test,[EVAL] General Aptitude Competition,1
+eval_ece2_robotics@nexora.test,[EVAL] Mechanical Design Internship,0
+eval_ece2_robotics@nexora.test,[EVAL] Frontend Bootcamp,0
+eval_ece2_robotics@nexora.test,[EVAL] Uncertain Eligibility Event,1
+eval_it6_react@nexora.test,[EVAL] AI Research Internship,0
+eval_it6_react@nexora.test,[EVAL] Web Dev Hackathon,3
+eval_it6_react@nexora.test,[EVAL] Robotics Workshop,0
+eval_it6_react@nexora.test,[EVAL] Data Science Scholarship,0
+eval_it6_react@nexora.test,[EVAL] General Aptitude Competition,1
+eval_it6_react@nexora.test,[EVAL] Mechanical Design Internship,0
+eval_it6_react@nexora.test,[EVAL] Frontend Bootcamp,3
+eval_it6_react@nexora.test,[EVAL] Uncertain Eligibility Event,1
+eval_cse2_ml@nexora.test,[EVAL] AI Research Internship,0
+eval_cse2_ml@nexora.test,[EVAL] Web Dev Hackathon,0
+eval_cse2_ml@nexora.test,[EVAL] Robotics Workshop,0
+eval_cse2_ml@nexora.test,[EVAL] Data Science Scholarship,0
+eval_cse2_ml@nexora.test,[EVAL] General Aptitude Competition,1
+eval_cse2_ml@nexora.test,[EVAL] Mechanical Design Internship,0
+eval_cse2_ml@nexora.test,[EVAL] Frontend Bootcamp,0
+eval_cse2_ml@nexora.test,[EVAL] Uncertain Eligibility Event,1
+eval_me4_general@nexora.test,[EVAL] AI Research Internship,0
+eval_me4_general@nexora.test,[EVAL] Web Dev Hackathon,0
+eval_me4_general@nexora.test,[EVAL] Robotics Workshop,0
+eval_me4_general@nexora.test,[EVAL] Data Science Scholarship,0
+eval_me4_general@nexora.test,[EVAL] General Aptitude Competition,1
+eval_me4_general@nexora.test,[EVAL] Mechanical Design Internship,2
+eval_me4_general@nexora.test,[EVAL] Frontend Bootcamp,0
+eval_me4_general@nexora.test,[EVAL] Uncertain Eligibility Event,1
