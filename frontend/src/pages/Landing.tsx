@@ -3,16 +3,9 @@ import { RadarBackdrop } from "../components/RadarBackdrop";
 import { MatchRing } from "../components/MatchRing";
 import {
   IconArrowRight,
-  IconBriefcase,
   IconRadar,
   IconSpark,
-  IconCode,
-  IconTrophy,
   IconCap,
-  IconFlask,
-  IconWrench,
-  IconMic,
-  IconCalendar,
   IconCheck,
   IconSearch,
   IconPin,

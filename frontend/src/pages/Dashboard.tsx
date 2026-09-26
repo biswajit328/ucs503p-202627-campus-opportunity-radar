@@ -1,27 +1,21 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppShell } from "../components/AppShell";
-import { CategoryTiles } from "../components/CategoryTiles";
-import { MatchRing } from "../components/MatchRing";
-import { RadarBackdrop } from "../components/RadarBackdrop";
 import { RecommendationCard } from "../components/RecommendationCard";
 import { TopMatchBespoke } from "../components/TopMatchBespoke";
-import { IconRadar, IconSpark, IconBriefcase, IconCheck, IconClipboard, IconSearch, IconArrowRight } from "../components/icons";
+import { IconSpark, IconBriefcase, IconClipboard } from "../components/icons";
 import { api } from "../api/client";
 import { getRecommendations } from "../api/recommendations";
 import { searchOpportunities } from "../api/opportunities";
 import { getMyBookmarks, addBookmark, removeBookmark } from "../api/bookmarks";
 import { getApplications } from "../api/applications";
-import { getDeadlineUrgency, formatDeadline, urgencyStyles } from "../utils/deadline";
-import { getCategoryStyle } from "../utils/category";
-import { useCurrentUser } from "../context/useCurrentUser";
+import { getDeadlineUrgency, formatDeadline } from "../utils/deadline";
 import type { StudentProfileOut } from "../types/profile";
 import type { Recommendation } from "../types/recommendation";
 import type { Opportunity } from "../types/opportunity";
 import type { Application } from "../types/application";
 
 export function Dashboard() {
-  const { user } = useCurrentUser();
   const [profile, setProfile] = useState<StudentProfileOut | null>(null);
   const [topMatches, setTopMatches] = useState<Recommendation[]>([]);
   const [allOpportunities, setAllOpportunities] = useState<Opportunity[]>([]);
@@ -149,11 +143,7 @@ export function Dashboard() {
     if (profile.interests.length > 0) profileScore += 25;
   }
 
-  const greeting = profile?.name ? profile.name.split(" ")[0] : user?.email.split("@")[0] || "there";
-
   const activeAppsCount = applications.filter(a => !["REJECTED", "ACCEPTED"].includes(a.status)).length;
-  const completedAppsCount = applications.filter(a => ["REJECTED", "ACCEPTED"].includes(a.status)).length;
-  const newSinceLastVisit = 0; // Placeholder for actual "new" data if available in future
 
   // Add filter state for the feed
   const [feedFilter, setFeedFilter] = useState("All");

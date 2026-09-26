@@ -94,11 +94,20 @@ export function RecommendationCard({
                 <span key={i} className="truncate"><span className="text-teal-400/80 mr-1">✓</span>{r}</span>
               ))}
               <span className="text-navy-700">&middot;</span>
-              <span className="truncate">{formattedDeadline}</span>
+              <span className={`truncate ${urgencyStyles[urgency] || ""}`}>{formattedDeadline}</span>
             </div>
           </div>
         </div>
         <div className="shrink-0 flex items-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <button
+            onClick={(e) => { e.stopPropagation(); if (onTrack) onTrack(opportunity.id); }}
+            disabled={tracking || isTracked}
+            className={`text-[12px] font-medium transition-colors ${
+              isTracked ? "text-teal-400 hover:text-teal-300" : "text-ink-muted hover:text-ink"
+            } disabled:opacity-50`}
+          >
+            {isTracked ? "Applied" : "Apply"}
+          </button>
           <button
             onClick={(e) => { e.stopPropagation(); onToggleBookmark(opportunity.id); }}
             disabled={toggling}
@@ -191,6 +200,11 @@ export function RecommendationCard({
           <span className={`text-2xl font-bold tracking-tight ${scoreColor}`}>
             {Math.round(match_score)}%
           </span>
+          {breakdownItems.length > 0 && (
+            <div className="mt-4">
+              <ScoreBreakdownBar breakdown={breakdownItems} />
+            </div>
+          )}
         </div>
 
         {(safeReasons.length > 0 || eligibility_status) && (
@@ -227,6 +241,17 @@ export function RecommendationCard({
           >
             View opportunity
           </a>
+          <button
+            onClick={() => onTrack?.(opportunity.id)}
+            disabled={tracking || isTracked}
+            className={`w-full text-center text-[13px] font-medium transition-colors border rounded-lg py-2 ${
+              isTracked
+                ? "border-teal-400/30 text-teal-400 bg-teal-400/5"
+                : "border-navy-700 text-ink-muted hover:text-ink hover:border-navy-600 bg-navy-900/50"
+            } disabled:opacity-50`}
+          >
+            {isTracked ? "Applied" : "Mark as Applied"}
+          </button>
           <button
             onClick={() => onToggleBookmark(opportunity.id)}
             disabled={toggling}

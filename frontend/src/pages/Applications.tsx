@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { getApplications, updateApplicationStatus } from "../api/applications";
-import { getOpportunities } from "../api/opportunities";
 import { AppShell } from "../components/AppShell";
 import { IconArrowRight, IconClipboard } from "../components/icons";
 import { getCategoryStyle } from "../utils/category";

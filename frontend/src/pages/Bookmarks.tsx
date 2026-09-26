@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getMyBookmarks, removeBookmark } from "../api/bookmarks";
-import { getOpportunities } from "../api/opportunities";
 import { createApplication, getApplications } from "../api/applications";
 import { OpportunityCard } from "../components/OpportunityCard";
 import { OpportunityDetailModal } from "../components/OpportunityDetailModal";

@@ -4,7 +4,6 @@ import { getRecommendations } from "../api/recommendations";
 import { addBookmark, getMyBookmarks, removeBookmark } from "../api/bookmarks";
 import { createApplication, getApplications } from "../api/applications";
 import { RecommendationCard } from "../components/RecommendationCard";
-import { SkeletonRecommendationCard } from "../components/SkeletonCard";
 import { EmptyState } from "../components/EmptyState";
 import { AppShell } from "../components/AppShell";
 import { IconSpark } from "../components/icons";
