@@ -24,6 +24,26 @@ async def global_exception_handler(request: Request, exc: Exception):
         headers={"Access-Control-Allow-Origin": request.headers.get("origin", "*"), "Access-Control-Allow-Credentials": "true"}
     )
 
+@app.get("/debug-db")
+def debug_db():
+    import subprocess
+    from app.core.database import engine
+    from sqlalchemy import inspect
+    
+    # Run alembic
+    alembic_res = subprocess.run(['alembic', 'upgrade', 'head'], capture_output=True, text=True)
+    
+    # Get tables
+    inspector = inspect(engine)
+    tables = inspector.get_table_names()
+    
+    return {
+        "alembic_code": alembic_res.returncode,
+        "alembic_stdout": alembic_res.stdout,
+        "alembic_stderr": alembic_res.stderr,
+        "tables": tables
+    }
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
